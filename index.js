@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 
 // Importamos el módulo express
@@ -14,16 +15,16 @@ const app = express();
 // Configuramos CORS
 app.use(cors())
 
+// Lectura y parseo del body
+app.use(express.json());
+
 // Conexión a la base de datos
 dbConnection();
 
-// Definimos la ruta principal
-app.get('/', (req, res) => {
-  res.json({
-    ok: true,
-    message: 'Hola Mundo'
-  });
-});
+// Rutas
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/login', require('./routes/auth'));
+
 
 // Iniciamos el server en el puerto 3000
 app.listen(process.env.PORT, () => {
