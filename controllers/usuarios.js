@@ -136,5 +136,5 @@ module.exports = {
   getUsuarios,
   crearUsuario,
   actualizarUsuario,
-  borrarUsuario: eliminarUsuario,
+  eliminarUsuario,
 };

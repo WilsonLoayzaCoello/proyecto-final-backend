@@ -9,7 +9,7 @@ const {
   getUsuarios,
   crearUsuario,
   actualizarUsuario,
-    borrarUsuario,
+  eliminarUsuario,
 } = require("../controllers/usuarios");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
@@ -40,10 +40,6 @@ router.put(
   actualizarUsuario
 );
 
-router.delete(
-  "/:id",
-  validarJWT,
-  borrarUsuario
-);
+router.delete("/:id", validarJWT, eliminarUsuario);
 
 module.exports = router;

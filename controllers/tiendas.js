@@ -3,9 +3,10 @@ const Tienda = require("../models/tienda");
 
 const getTiendas = async (req, res = response) => {
   const tiendas = await Tienda.find().populate("usuario", "nombre img");
+
   res.json({
     ok: true,
-    tiendas
+    tiendas,
   });
 };
 
@@ -17,7 +18,6 @@ const crearTienda = async (req, res = response) => {
   });
 
   try {
-
     const tiendaDB = await tienda.save();
     res.json({
       ok: true,

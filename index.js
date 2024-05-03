@@ -2,7 +2,6 @@ require("dotenv").config();
 
 // Importamos el módulo express
 const express = require("express");
-
 var cors = require("cors");
 
 // Importamos la configuración de la base de datos
@@ -13,6 +12,9 @@ const app = express();
 
 // Configuramos CORS
 app.use(cors());
+
+// Directorio público
+app.use(express.static("public"));
 
 // Lectura y parseo del body
 app.use(express.json());

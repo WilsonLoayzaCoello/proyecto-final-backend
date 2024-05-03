@@ -5,9 +5,10 @@ const getEmpleados = async (req, res = response) => {
   const empleados = await Empleado.find()
     .populate("usuario", "nombre img")
     .populate("tienda", "nombre img");
+
   res.json({
     ok: true,
-    empleados
+    empleados,
   });
 };
 
