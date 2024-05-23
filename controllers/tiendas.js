@@ -33,17 +33,65 @@ const crearTienda = async (req, res = response) => {
 };
 
 const actualizarTienda = async (req, res = response) => {
-  res.json({
-    ok: true,
-    msg: "actualizarTienda",
-  });
+  const id = req.params.id;
+  try {
+    const tienda = await Tienda.findById(id);
+    if (!tienda) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Tienda no encontrada por id",
+      });
+    }
+
+    const cambiosTienda = {
+      ...req.body,
+      usuario: req.uid,
+    };
+
+    const tiendaActualizada = await Tienda.findByIdAndUpdate(
+      id,
+      cambiosTienda,
+      {
+        new: true,
+      }
+    );
+    res.json({
+      ok: true,
+      tienda: tiendaActualizada,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
 };
 
 const eliminarTienda = async (req, res = response) => {
-  res.json({
-    ok: true,
-    msg: "eliminarTienda",
-  });
+  const id = req.params.id;
+  try {
+    const tienda = await Tienda.findById(id);
+    if (!tienda) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Tienda no encontrada por id",
+      });
+    }
+
+    await Tienda.findByIdAndDelete(id);
+
+    res.json({
+      ok: true,
+      msg: "Tienda eliminada",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
 };
 
 module.exports = {

@@ -35,17 +35,69 @@ const crearEmpleado = async (req, res = response) => {
 };
 
 const actualizarEmpleado = async (req, res = response) => {
-  res.json({
-    ok: true,
-    msg: "actualizarEmpleado",
-  });
+  const id = req.params.id;
+  const uid = req.uid;
+
+  try {
+    const empleado = await Empleado.findById(id);
+
+    if (!empleado) {
+      return res.status(404).json({
+        ok: true,
+        msg: "Empleado no encontrado por id",
+      });
+    }
+
+    const cambiosEmpleado = {
+      ...req.body,
+      usuario: uid,
+    };
+
+    const empleadoActualizado = await Empleado.findByIdAndUpdate(
+      id,
+      cambiosEmpleado,
+      { new: true }
+    );
+
+    res.json({
+      ok: true,
+      empleado: empleadoActualizado,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
 };
 
 const eliminarEmpleado = async (req, res = response) => {
-  res.json({
-    ok: true,
-    msg: "eliminarEmpleado",
-  });
+  const id = req.params.id;
+
+  try {
+    const empleado = await Empleado.findById(id);
+
+    if (!empleado) {
+      return res.status(404).json({
+        ok: true,
+        msg: "Empleado no encontrado por id",
+      });
+    }
+
+    await Empleado.findByIdAndDelete(id);
+
+    res.json({
+      ok: true,
+      msg: "Empleado eliminado de la base de datos",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
 };
 
 module.exports = {

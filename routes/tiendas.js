@@ -24,7 +24,7 @@ router.post(
   [
     validarJWT,
     check("nombre", "El nombre de la tienda es necesario").not().isEmpty(),
-    validarCampos
+    validarCampos,
   ],
   crearTienda
 );
@@ -32,14 +32,13 @@ router.post(
 router.put(
   "/:id",
   [
-    
+    validarJWT,
+    check("nombre", "El nombre de la tienda es necesario").not().isEmpty(),
+    validarCampos,
   ],
   actualizarTienda
 );
 
-router.delete(
-  "/:id",
-  eliminarTienda
-);
+router.delete("/:id", validarJWT, eliminarTienda);
 
 module.exports = router;
