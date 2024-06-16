@@ -12,6 +12,25 @@ const getEmpleados = async (req, res = response) => {
   });
 };
 
+const getEmpleadoById = async (req, res = response) => {
+  const id = req.params.id;
+  try {
+    const empleado = await Empleado.findById(id)
+      .populate("usuario", "nombre img")
+      .populate("tienda", "nombre img");
+
+    res.json({
+      ok: true,
+      empleado,
+    });
+  } catch (error) {
+    res.json({
+      ok: true,
+      msg: "Empleado no encontrado por id",
+    });
+  }
+};
+
 const crearEmpleado = async (req, res = response) => {
   const uid = req.uid;
   const empleado = new Empleado({
@@ -105,4 +124,5 @@ module.exports = {
   crearEmpleado,
   actualizarEmpleado,
   eliminarEmpleado,
+  getEmpleadoById,
 };

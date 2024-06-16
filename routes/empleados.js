@@ -13,11 +13,12 @@ const {
   crearEmpleado,
   actualizarEmpleado,
   eliminarEmpleado,
+  getEmpleadoById,
 } = require("../controllers/empleados");
 
 const router = Router();
 
-router.get("/", getEmpleados);
+router.get("/", validarJWT, getEmpleados);
 
 router.post(
   "/",
@@ -41,6 +42,8 @@ router.put(
   actualizarEmpleado
 );
 
-router.delete("/:id", eliminarEmpleado);
+router.delete("/:id", validarJWT, eliminarEmpleado);
+
+router.get("/:id", validarJWT, getEmpleadoById);
 
 module.exports = router;
